@@ -137,7 +137,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
   const [transacoesManuais, setTransacoesManuais] = useState<Transacao[]>(initialTransacoesManuais);
   
   const [services, setServices] = useState<Service[]>([
-      { name: 'n8n', description: 'Automatize fluxos com n8n.', status: 'disconnected', webhookUrl: 'https://brain.nandus.com.br/webhook/clinica-odonto' }
+      { name: 'n8n', description: 'Automatize fluxos com n8n.', status: 'disconnected', webhookUrl: process.env.N8N_AUTH_WEBHOOK_URL || '' }
   ]);
   const n8nService = services.find(s => s.name === 'n8n' && s.status === 'connected');
 

@@ -7,7 +7,7 @@ interface LoginScreenProps {
   onLogin: (user: User) => void;
 }
 
-const N8N_AUTH_WEBHOOK_URL = 'https://brain.nandus.com.br/webhook/clinica-odonto';
+const N8N_AUTH_WEBHOOK_URL = process.env.N8N_AUTH_WEBHOOK_URL;
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
   const [view, setView] = useState<'login' | 'register'>('login');
@@ -47,6 +47,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
     setSuccessMessage('');
 
     try {
+        if (!N8N_AUTH_WEBHOOK_URL) {
+            throw new Error("A URL de autenticação do n8n (N8N_AUTH_WEBHOOK_URL) não está configurada no ambiente.");
+        }
+
         const hashedPassword = await hashStringSHA256(password);
         
         const response = await fetch(N8N_AUTH_WEBHOOK_URL, {
@@ -96,6 +100,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
     setSuccessMessage('');
 
     try {
+        if (!N8N_AUTH_WEBHOOK_URL) {
+            throw new Error("A URL de autenticação do n8n (N8N_AUTH_WEBHOOK_URL) não está configurada no ambiente.");
+        }
+
         const hashedPassword = await hashStringSHA256(password);
         
         const response = await fetch(N8N_AUTH_WEBHOOK_URL, {
