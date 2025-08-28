@@ -4,6 +4,9 @@
  * @returns {Promise<string>} A promise that resolves to the hex-encoded hash string.
  */
 export async function hashStringSHA256(str: string): Promise<string> {
+  if (typeof crypto === 'undefined' || !crypto.subtle) {
+    throw new Error("A API de Criptografia não está disponível. Para que o login funcione, a aplicação deve ser acessada via um endereço seguro (HTTPS).");
+  }
   const encoder = new TextEncoder();
   const data = encoder.encode(str);
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);

@@ -21,7 +21,12 @@ export const useTheme = () => {
 };
 
 const App: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  // LOGIN TEMPORARIAMENTE DESABILITADO: Para reativar a tela de login,
+  // mude o estado inicial de `currentUser` para `null`.
+  const [currentUser, setCurrentUser] = useState<User | null>({
+    email: 'dev@clinica.com',
+    role: 'superadmin',
+  });
   
   // --- Theme State and Logic ---
   const [theme, setTheme] = useState<Theme>(() => {
