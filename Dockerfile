@@ -1,32 +1,40 @@
-
 # Etapa de build
 FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copia os arquivos de dependências
+# Instalar dependências do sistema
+RUN apk add --no-cache python3 make g++
+
+# Copiar arquivos de dependência
 COPY package*.json ./
 
-# Instala as dependências (incluindo devDependencies para o build)
-RUN npm ci
+# Limpar cache do npm e instalar dependências
+RUN npm cache clean --force
+RUN npm install --legacy-peer-deps
 
-# Copia todo o código fonte
+# Copiar código fonte
 COPY . .
 
-# Faz o build da aplicação
+# Build da aplicação
 RUN npm run build
 
 # Etapa de produção
 FROM nginx:alpine
 
-# Copia os arquivos buildados do estágio anterior
+# Remover arquivos padrão
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copiar build
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copia configuração customizada do Nginx
+# Copiar configuração nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expõe a porta 80
+# Criar arquivo de log do nginx
+RUN touch /var/log/nginx/access.log
+RUN touch /var/log/nginx/error.log
+
 EXPOSE 80
 
-# Comando para iniciar o Nginx
 CMD ["nginx", "-g", "daemon off;"]
