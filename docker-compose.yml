@@ -11,8 +11,8 @@ services:
     environment:
       - NODE_ENV=production
     networks:
-      - clinica-network
+      - n8n
 
 networks:
-  clinica-network:
+  n8n:
     driver: bridge
