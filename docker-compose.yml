@@ -1,7 +1,18 @@
+
 version: "3.8"
 
 services:
   clinica-odont:
     build: .
+    container_name: clinica-odontologica
     ports:
-      - "8086:80"
+      - "8080:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - clinica-network
+
+networks:
+  clinica-network:
+    driver: bridge
