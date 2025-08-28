@@ -1,0 +1,5 @@
+{
+  "name": "Clínica Odonto - Painel de Gestão",
+  "description": "Um painel de controle para clínicas de odontologia para gerenciar agendamentos de pacientes, integrando-se com n8n, Evolution API e Google Calendar para automatizar o atendimento e a marcação de consultas.",
+  "requestFramePermissions": []
+}
