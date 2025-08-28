@@ -22,7 +22,7 @@ export const useTheme = () => {
 
 const App: React.FC = () => {
   // LOGIN TEMPORARIAMENTE DESABILITADO: Para reativar a tela de login,
-  // mude o estado inicial de `currentUser` para `null`.
+  // comente a linha que força o Dashboard e descomente o código original no return.
   const [currentUser, setCurrentUser] = useState<User | null>({
     email: 'dev@clinica.com',
     role: 'superadmin',
@@ -70,11 +70,17 @@ const App: React.FC = () => {
   return (
     <ThemeContext.Provider value={themeValue}>
       <div className="bg-gray-100 dark:bg-dark-bg text-gray-900 dark:text-dark-text-primary min-h-screen transition-colors duration-300">
-        {currentUser ? (
-          <Dashboard user={currentUser} onLogout={handleLogout} />
-        ) : (
-          <LoginScreen onLogin={handleLogin} />
-        )}
+        {/* FORÇANDO O PAINEL PARA DEBUG DE DEPLOY/CACHE */}
+        {/* Se o currentUser for nulo por algum motivo, usamos um fallback para evitar que a aplicação quebre. */}
+        <Dashboard user={currentUser || { email: 'fallback@dev.com', role: 'superadmin' }} onLogout={handleLogout} />
+
+        {/* --- CÓDIGO ORIGINAL DO LOGIN ---
+          {currentUser ? (
+            <Dashboard user={currentUser} onLogout={handleLogout} />
+          ) : (
+            <LoginScreen onLogin={handleLogin} />
+          )}
+        */}
       </div>
     </ThemeContext.Provider>
   );
