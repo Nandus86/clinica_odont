@@ -4,4 +4,4 @@ services:
   clinica-odont:
     build: .
     ports:
-      - "8080:80"
+      - "8086:80"
