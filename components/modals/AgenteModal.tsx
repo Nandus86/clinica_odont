@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { UserRole, Agente } from '../../types';
-import { hashStringSHA256 } from '../../utils/crypto';
 
 export interface AgenteSubmitData {
     id?: string;
     fullName: string;
     email: string;
     role: UserRole;
-    password_hash?: string;
+    password?: string;
 }
 
 interface AgenteModalProps {
@@ -59,8 +58,6 @@ const AgenteModal: React.FC<AgenteModalProps> = ({ isOpen, onClose, onSubmit, ag
             return;
         }
 
-        let password_hash: string | undefined = undefined;
-
         if (password) {
             if (password.length < 8) {
                 setError("A senha deve ter no mínimo 8 caracteres.");
@@ -68,13 +65,6 @@ const AgenteModal: React.FC<AgenteModalProps> = ({ isOpen, onClose, onSubmit, ag
             }
             if (password !== confirmPassword) {
                 setError("As senhas não coincidem.");
-                return;
-            }
-            try {
-                password_hash = await hashStringSHA256(password);
-            } catch (err) {
-                console.error("Erro ao gerar hash da senha:", err);
-                setError("Ocorreu um erro interno. Tente novamente.");
                 return;
             }
         } else if (!isEditing) {
@@ -87,7 +77,7 @@ const AgenteModal: React.FC<AgenteModalProps> = ({ isOpen, onClose, onSubmit, ag
             fullName,
             email,
             role,
-            password_hash,
+            password: password ? password : undefined,
         });
     };
 

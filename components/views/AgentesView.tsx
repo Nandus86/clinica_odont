@@ -57,8 +57,8 @@ const AgentesView: React.FC<AgentesViewProps> = ({ agentes, setAgentes, onSync, 
                 if (isUpdating) {
                     payload.id = data.id;
                 }
-                if (data.password_hash) {
-                    payload.password_hash = data.password_hash;
+                if (data.password) {
+                    payload.password = data.password;
                 }
 
                 const response = await fetch(n8nWebhookUrl, {

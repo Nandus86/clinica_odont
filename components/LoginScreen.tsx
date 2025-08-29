@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ToothIcon } from './IconComponents';
 import { User, UserRole } from '../types';
-import { hashStringSHA256 } from '../utils/crypto';
 
 interface LoginScreenProps {
   onLogin: (user: User) => void;
@@ -50,8 +49,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
         if (!N8N_AUTH_WEBHOOK_URL) {
             throw new Error("A URL de autenticação do n8n (N8N_AUTH_WEBHOOK_URL) não está configurada no ambiente.");
         }
-
-        const hashedPassword = await hashStringSHA256(password);
         
         const response = await fetch(N8N_AUTH_WEBHOOK_URL, {
             method: 'POST',
@@ -59,7 +56,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
             body: JSON.stringify({
                 tag: 'solicitando_acesso',
                 email,
-                password_hash: hashedPassword,
+                password: password,
             }),
         });
 
@@ -103,8 +100,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
         if (!N8N_AUTH_WEBHOOK_URL) {
             throw new Error("A URL de autenticação do n8n (N8N_AUTH_WEBHOOK_URL) não está configurada no ambiente.");
         }
-
-        const hashedPassword = await hashStringSHA256(password);
         
         const response = await fetch(N8N_AUTH_WEBHOOK_URL, {
             method: 'POST',
@@ -113,7 +108,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                 tag: 'solicitando_cadastro',
                 nome_completo: fullName,
                 email,
-                password_hash: hashedPassword,
+                password: password,
                 codigo_liberacao: releaseCode,
                 role: role,
             }),
