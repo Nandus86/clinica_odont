@@ -122,7 +122,7 @@ const parseAtendimentos = (atendimentos: Atendimento[], pacientes: Paciente[], d
 
 const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
   const [activeView, setActiveView] = useState<View>(View.Dashboard);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // Data states
   const [clinicas, setClinicas] = useState<Clinica[]>(initialClinicas);
@@ -260,9 +260,33 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
     }
   };
 
+  const handleMobileNavigate = (view: View) => {
+    setActiveView(view);
+    setIsMobileSidebarOpen(false);
+  }
+
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-dark-bg font-sans transition-colors duration-300">
-      <Sidebar activeView={activeView} setActiveView={setActiveView} navItems={navItems} />
+      {/* Mobile Sidebar Overlay */}
+      {isMobileSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden" 
+          onClick={() => setIsMobileSidebarOpen(false)}
+        >
+          <div 
+            className="fixed inset-y-0 left-0 w-64 bg-brand-secondary text-white transform transition-transform duration-300 ease-in-out"
+            onClick={e => e.stopPropagation()}
+          >
+            <Sidebar activeView={activeView} setActiveView={handleMobileNavigate} navItems={navItems} />
+          </div>
+        </div>
+      )}
+
+      {/* Desktop Sidebar */}
+      <div className="hidden md:flex">
+        <Sidebar activeView={activeView} setActiveView={setActiveView} navItems={navItems} />
+      </div>
+
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header
           activeView={activeView}
@@ -271,8 +295,9 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
           clinicas={clinicas}
           selectedClinicaId={selectedClinicaId}
           onSelectClinica={handleSelectClinica}
+          onMenuClick={() => setIsMobileSidebarOpen(true)}
         />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-dark-bg p-6">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-dark-bg p-4 sm:p-6">
           {renderView()}
         </main>
       </div>

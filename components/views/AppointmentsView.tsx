@@ -172,7 +172,7 @@ const AtendimentosView: React.FC<AtendimentosViewProps> = (props) => {
             </div>
 
             {/* Content */}
-            <div className="flex-grow">
+            <div className="flex-grow overflow-hidden">
                 {viewMode === 'kanban' && <KanbanView atendimentos={filteredAtendimentos} onStatusChange={handleStatusChange} onEdit={handleOpenModalForEdit} procedimentos={props.procedimentos} />}
                 {viewMode === 'table' && <TableView atendimentos={filteredAtendimentos} onEdit={handleOpenModalForEdit} onStatusChange={handleStatusChange} procedimentos={props.procedimentos}/>}
                 {viewMode === 'calendar' && <CalendarView atendimentos={filteredAtendimentos} onEdit={handleOpenModalForEdit} procedimentos={props.procedimentos}/>}
@@ -228,11 +228,11 @@ const KanbanView: React.FC<{atendimentos: Atendimento[], onStatusChange: (id: st
      };
      
      return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4 h-full">
+        <div className="flex space-x-4 overflow-x-auto pb-4 h-full">
             {columns.map(status => (
                 <div 
                     key={status} 
-                    className={`bg-gray-50 dark:bg-dark-bg rounded-lg p-3 flex flex-col transition-colors duration-300 ${draggedOverStatus === status ? 'bg-brand-light dark:bg-gray-700' : ''}`}
+                    className={`w-72 md:w-80 flex-shrink-0 bg-gray-50 dark:bg-dark-bg rounded-lg p-3 flex flex-col transition-colors duration-300 ${draggedOverStatus === status ? 'bg-brand-light dark:bg-gray-700' : ''}`}
                     onDrop={(e) => handleDrop(e, status)}
                     onDragOver={(e) => handleDragOver(e, status)}
                     onDragLeave={handleDragLeave}
@@ -315,7 +315,7 @@ const TableView: React.FC<{atendimentos: Atendimento[], onEdit: (at: Atendimento
     };
 
     return (
-         <div className="bg-white dark:bg-dark-surface p-4 rounded-xl shadow-md overflow-y-auto">
+         <div className="bg-white dark:bg-dark-surface p-4 rounded-xl shadow-md overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-dark-border">
                 <thead className="bg-gray-50 dark:bg-gray-800">
                     <tr>

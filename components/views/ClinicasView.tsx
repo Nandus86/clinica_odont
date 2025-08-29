@@ -68,16 +68,16 @@ const ClinicasView: React.FC<ClinicasViewProps> = ({ clinicas, setClinicas, onSy
 
     return (
         <>
-            <div className="bg-white p-6 rounded-xl shadow-md">
+            <div className="bg-white dark:bg-dark-surface p-6 rounded-xl shadow-md">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                    <h2 className="text-xl font-semibold text-brand-secondary">Gestão de Clínicas</h2>
+                    <h2 className="text-xl font-semibold text-brand-secondary dark:text-dark-text-primary">Gestão de Clínicas</h2>
                     <div className="flex items-center gap-2">
                         <button 
                             onClick={onSync}
-                            className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+                            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                             title="Sincronizar clínicas"
                         >
-                            <SyncIcon className="w-5 h-5 text-gray-600" />
+                            <SyncIcon className="w-5 h-5 text-gray-600 dark:text-dark-text-secondary" />
                         </button>
                         <button 
                             onClick={handleOpenModalForCreate}
@@ -89,21 +89,21 @@ const ClinicasView: React.FC<ClinicasViewProps> = ({ clinicas, setClinicas, onSy
                     </div>
                 </div>
                 <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                    <table className="min-w-full divide-y divide-gray-200 dark:divide-dark-border">
+                        <thead className="bg-gray-50 dark:bg-gray-800">
                             <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CNPJ</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Telefone</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">Nome</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">CNPJ</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">Telefone</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-text-secondary uppercase tracking-wider">Ações</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className="bg-white dark:bg-dark-surface divide-y divide-gray-200 dark:divide-dark-border">
                             {clinicas.map(clinica => (
-                                <tr key={clinica.id} className="hover:bg-gray-50">
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{clinica.name}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{clinica.cnpj}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{clinica.phone}</td>
+                                <tr key={clinica.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-dark-text-primary">{clinica.name}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-dark-text-secondary">{clinica.cnpj}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-dark-text-secondary">{clinica.phone}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <button onClick={() => handleOpenModalForEdit(clinica)} className="text-brand-primary hover:text-blue-700">Editar</button>
                                     </td>
