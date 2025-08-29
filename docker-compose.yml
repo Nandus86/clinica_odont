@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  clinica-odont:
+  clinic:
     build: .
     container_name: clinica-odontologica
     ports:
