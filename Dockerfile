@@ -1,4 +1,3 @@
-
 # Etapa de build
 FROM node:22-alpine AS builder
 
@@ -8,13 +7,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instala as dependências
-RUN npm ci
+RUN npm ci --only=production
 
 # Copia todo o código fonte
 COPY . .
 
 # Faz o build da aplicação
-RUN npm run dev
+RUN npm run build
 
 # Etapa de produção
 FROM nginx:alpine
