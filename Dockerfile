@@ -1,3 +1,4 @@
+RUN apt-get update && apt-get install -y python3 g++ make
 
 # Etapa de build
 FROM node:18-alpine AS builder
@@ -8,13 +9,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instala as dependências
-RUN npm ci --only=production
+RUN npm install
 
 # Copia todo o código fonte
 COPY . .
 
 # Faz o build da aplicação
-RUN npm run build
+RUN npm run
 
 # Etapa de produção
 FROM nginx:alpine
