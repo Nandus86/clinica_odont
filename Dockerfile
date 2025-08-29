@@ -1,31 +1,40 @@
-# Etapa de build
-FROM node:22-alpine AS builder
+FROM node:16-alpine
 
 WORKDIR /app
 
-# Copia os arquivos de dependências
+# Instalar dependências do sistema necessárias
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    git \
+    curl
+
+# Copiar apenas package.json primeiro (para cache de layer)
 COPY package*.json ./
 
-# Instala as dependências
-RUN npm ci --only=production
+# Remover package-lock.json se houver problemas
+RUN rm -f package-lock.json
 
-# Copia todo o código fonte
+# Configurar npm para evitar problemas
+RUN npm config set registry https://registry.npmjs.org/
+RUN npm config set fund false
+RUN npm config set audit false
+
+# Instalar dependências com flags mais permissivas
+RUN npm install --legacy-peer-deps --no-optional --force
+
+# Copiar o resto dos arquivos
 COPY . .
 
-# Faz o build da aplicação
+# Fazer build da aplicação
 RUN npm run build
 
-# Etapa de produção
-FROM nginx:alpine
+# Instalar serve globalmente para servir a aplicação
+RUN npm install -g serve
 
-# Copia os arquivos buildados do estágio anterior
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Copia configuração customizada do Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expõe a porta 80
+# Expor porta 80
 EXPOSE 80
 
-# Comando para iniciar o Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Comando para servir a aplicação
+CMD ["serve", "-s", "dist", "-l", "80", "--host", "0.0.0.0"]
