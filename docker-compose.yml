@@ -5,7 +5,7 @@ services:
     build: .
     container_name: clinica-odontologica
     ports:
-      - "8096:80"
+      - "8076:80"
     restart: unless-stopped
     environment:
       - NODE_ENV=production
