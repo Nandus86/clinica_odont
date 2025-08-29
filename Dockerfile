@@ -8,13 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instala as dependências
-RUN npm ci --only=production
+RUN npm ci
 
 # Copia todo o código fonte
 COPY . .
 
 # Faz o build da aplicação
-RUN npm run build
+RUN npm run dev
 
 # Etapa de produção
 FROM nginx:alpine
